@@ -4,48 +4,75 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Carrega o Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Cartão de Aniversário</title>
+    <!-- Adiciona a fonte Inter do Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    
     <style>
+        /* Estilos personalizados para a animação do cartão e elementos decorativos */
         body {
             font-family: 'Inter', sans-serif;
+            /* Um fundo gradiente suave */
             background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+            /* Garante que o fundo cubra toda a tela */
             min-height: 100vh;
         }
+
         .bday, .happy, .toyou {
             font-family: 'Playfair Display', serif;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
+
         .splash-title {
              font-family: 'Dancing Script', cursive;
              color: #4a2c2a;
         }
+        
         .wishes p {
              font-family: 'Dancing Script', cursive;
-             font-size: 1.75rem;
-             line-height: 2.5rem;
-             color: #4a2c2a;
+             font-size: 1.75rem; /* 28px */
+             line-height: 2.5rem; /* 40px */
+             color: #4a2c2a; /* Um castanho escuro e quente */
         }
+        
         .wishes p.name {
-            margin-top: 1.5rem;
-            font-size: 2rem;
+            margin-top: 1.5rem; /* 24px */
+            font-size: 2rem; /* 32px */
             font-weight: 700;
         }
-        .birthdayCard { perspective: 1000px; }
+
+        /* Configuração do cenário 3D para o flip */
+        .birthdayCard {
+            perspective: 1000px;
+        }
+
+        /* O "interior" do cartão, inicialmente virado para trás e escondido */
         .cardInside {
             transform: rotateY(180deg);
             backface-visibility: hidden;
             transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            background-color: #fff8f0;
+            background-color: #fff8f0; /* Um creme suave para o interior */
         }
+
+        /* A "frente" do cartão, inicialmente visível */
         .cardFront {
             backface-visibility: hidden;
             transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            background-color: #fef9f3;
+            background-color: #fef9f3; /* Um branco-sujo ligeiramente diferente para a frente */
         }
-        .birthdayCard:hover .cardFront { transform: rotateY(-180deg); }
-        .birthdayCard:hover .cardInside { transform: rotateY(0deg); }
+
+        /* Animação de virar ao passar o rato */
+        .birthdayCard:hover .cardFront {
+            transform: rotateY(-180deg);
+        }
+
+        .birthdayCard:hover .cardInside {
+            transform: rotateY(0deg);
+        }
+
+        /* Estilos para o bolo e a chama */
         .plate {
             width: 150px;
             height: 15px;
@@ -57,16 +84,19 @@
             transform: translateX(-50%);
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
+
         .cake {
             width: 120px;
             height: 80px;
             background: linear-gradient(#f4a261, #e76f51);
             position: absolute;
-            bottom: 15px;
+            bottom: 15px; /* Senta-se no prato */
             left: 50%;
             transform: translateX(-50%);
             border-radius: 8px 8px 0 0;
         }
+        
+        /* Cobertura */
         .cake::before {
             content: '';
             position: absolute;
@@ -77,6 +107,8 @@
             background-color: #ffffff;
             border-radius: 8px 8px 0 0;
         }
+        
+        /* Vela */
         .cake::after {
             content: '';
             position: absolute;
@@ -88,72 +120,152 @@
             background-color: #90e0ef;
             border-radius: 4px 4px 0 0;
         }
+
         .flame {
             width: 12px;
             height: 20px;
             background-color: #fb8500;
-            border-radius: 50% / 60% 60% 40% 40%;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             position: absolute;
-            top: -50px;
+            top: -50px; /* Acima da vela */
             left: 50%;
             transform: translateX(-50%);
             animation: flicker 1s infinite alternate;
         }
+
+        /* Animação da chama da vela */
         @keyframes flicker {
-            0% { transform: translateX(-50%) scale(1); opacity: 1; }
-            50% { transform: translateX(-50%) scale(1.1); opacity: 0.8; }
-            100% { transform: translateX(-50%) scale(0.9); opacity: 1; }
+            0% {
+                transform: translateX(-50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(-50%) scale(1.1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateX(-50%) scale(0.9);
+                opacity: 1;
+            }
         }
-        .decorations, .decorationsTwo, .decorationsThree {
+        
+        /* Decorações (simples, pode ser melhorado) */
+        .decorations {
             position: absolute;
             width: 10px;
             height: 20px;
+            background: #ef476f;
             border-radius: 50%;
+            top: 20%;
+            left: 10%;
+            transform: rotate(-20deg);
         }
-        .decorations { background: #ef476f; top: 20%; left: 10%; transform: rotate(-20deg); }
-        .decorationsTwo { background: #06d6a0; top: 30%; left: 90%; transform: rotate(20deg); }
-        .decorationsThree { background: #118ab2; top: 60%; left: 20%; transform: rotate(-10deg); }
+        .decorationsTwo {
+            position: absolute;
+            width: 10px;
+            height: 20px;
+            background: #06d6a0;
+            border-radius: 50%;
+            top: 30%;
+            left: 90%;
+            transform: rotate(20deg);
+        }
+        .decorationsThree {
+             position: absolute;
+            width: 10px;
+            height: 20px;
+            background: #118ab2;
+            border-radius: 50%;
+            top: 60%;
+            left: 20%;
+            transform: rotate(-10deg);
+        }
+        
     </style>
 </head>
 <body class="w-full min-h-screen">
 
-    <iframe style="height: 80px;" src="https://open.spotify.com/intl-pt/track/7oohAw9hiIMJqnewJ7vhOk?si=8838df332d0b4a4a" class="fixed top-4 right-4 z-50 w-72 rounded-xl shadow-lg" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <!-- 
+      Player do Spotify (Mantido como um elemento fixo opcional)
+      Canto superior DIREITO (right-4) e tamanho w-72 (288px).
+    -->
+    <iframe style="height: 80px;" 
+            src="https://open.spotify.com/embed/track/53PpijFATt35Zxfl6LTxoK?utm_source=generator&theme=0" 
+            class="fixed top-4 right-4 z-50 w-72 rounded-xl shadow-lg" 
+            frameBorder="0" 
+            allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy"></iframe>
 
+    <!-- 
+      Página de Introdução (Primeira Página)
+    -->
     <div id="splash-page" class="flex flex-col items-center justify-center min-h-screen w-full p-4 text-center">
-        <h1 class="splash-title text-5xl sm:text-7xl font-bold mb-8">Um cartão especial para você!</h1>
-        <button id="open-card-btn" class="bg-pink-500 text-white font-bold py-3 px-8 rounded-full shadow-lg text-xl sm:text-2xl transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-75">Abrir Cartão</button>
+        <!-- Título de Introdução -->
+        <h1 class="splash-title text-5xl sm:text-7xl font-bold mb-10">Um cartão especial para você!</h1>
+        
+        <!-- Botão para a Próxima Página (Cartão) -->
+        <button id="open-card-btn" class="bg-pink-500 text-white font-bold py-3 px-8 rounded-full shadow-lg text-xl sm:text-2xl transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-75">
+            Abrir Cartão
+        </button>
     </div>
 
-    <div id="card-page" class="hidden items-center justify-center min-h-screen w-full">
+    <!-- 
+      Página do Cartão (Segunda Página)
+      Fica escondida (hidden) no início.
+    -->
+    <div id="card-page" class="hidden flex-col items-center justify-center min-h-screen w-full p-4 text-center">
+        <!-- Cartão de Aniversário -->
         <div class="birthdayCard w-[350px] h-[500px] sm:w-[400px] sm:h-[550px] relative cursor-pointer rounded-lg shadow-2xl">
+            
+            <!-- Frente do Cartão -->
             <div class="cardFront absolute w-full h-full rounded-lg overflow-hidden shadow-xl p-8 text-center flex flex-col justify-between items-center">
+                <!-- Decorações de fundo -->
                 <div class="wrap-deco">
                     <div class="decorations"></div>
                     <div class="decorationsTwo"></div>
-                </div>
+                </div> 
                 <div class="wrap-decoTwo">
                     <div class="decorations"></div>
                     <div class="decorationsThree"></div>
                 </div>
+                
+                <!-- Texto da Frente -->
                 <div class="front-text z-10">
                     <h3 class="happy text-4xl sm:text-5xl font-bold text-pink-500">FELIZ</h3>
-                    <h2 class="bday text-4xl sm:text-5xl font-bold text-orange-500 my-2">ANIVERSÁRIO</h2>
-                    <h3 class="toyou text-5xl sm:text-6xl font-bold text-pink-500">Samara!!!!</h3>
+                    <h2 class="bday text-4xl sm:text-5xl font-bold text-orange-500 my-2">ANIVERSÁRIO</h2> 
+                    <h3 class="toyou text-5xl sm:text-6xl font-bold text-pink-500">Samara!!!</h3>  
                 </div>
+
+                <!-- Bolo e Prato (elementos personalizados) -->
                 <div class="z-10 w-full h-1/3 relative">
                     <div class="plate">
                         <div class="cake"></div>
                         <div class="flame"></div>
                     </div>
                 </div>
-            </div>
+            </div>  
+            
+            <!-- Interior do Cartão (Card Inside) -->
             <div class="cardInside absolute w-full h-full rounded-lg overflow-hidden shadow-xl p-8 text-center flex flex-col justify-center items-center">
-                <div class="inside-text mb-6"></div>
+                <div class="inside-text mb-6">
+                    <h3 class="happy text-3xl sm:text-4xl font-bold text-pink-500"></h3>
+                    <h2 class="bday text-2xl sm:text-3xl font-bold text-orange-500 my-2"></h2> 
+                    <h3 class="toyou text-3xl sm:text-4xl font-bold text-pink-500"></h3>  
+                </div>
                 <div class="wishes">
-                    <p>Feliz aniversário, Sam!!!!!!! Tu é uma pessoa incrível, com um coração lindo e uma luz que deixa tudo mais leve. Sou muito grato por ter alguém como tu na minha vida. Com certeza eu queria estar terminando o ensino médio do teu lado, mas acontece. Espero que tu aproveite muito o teu dia e que realize todos os teus sonhos. Te adoro 💖</p>
+                    <p></p>
+                    <p>Feliz aniversário, Sam!!!!!!!
+Tu é uma pessoa incrível, com um coração lindo e uma luz que deixa tudo mais leve.
+Sou muito grato por ter alguém como tu na minha vida. Com certeza eu queria estar terminando o ensino médio do teu lado, mas acontece 
+Espero que tu aproveite muito o teu dia e que realize todos os teus sonhos.
+Te adoro 💖</p>
+                    <p class="name"></p>
                 </div>
             </div>
         </div>
+        <!-- Instrução para o usuário -->
+        <p class="mt-8 text-lg font-semibold text-gray-700">Passe o mouse ou toque no cartão para abrir!</p>
     </div>
 
     <script>
@@ -162,12 +274,15 @@
             const cardPage = document.getElementById('card-page');
             const openCardBtn = document.getElementById('open-card-btn');
 
-            openCardBtn.addEventListener('click', () => {
-                splashPage.classList.add('hidden');
-                splashPage.classList.remove('flex');
-                cardPage.classList.remove('hidden');
-                cardPage.classList.add('flex');
-            });
+            if (openCardBtn) {
+                openCardBtn.addEventListener('click', () => {
+                    // Esconde a página de introdução
+                    splashPage.classList.add('hidden');
+                    // Mostra a página do cartão
+                    cardPage.classList.remove('hidden');
+                    cardPage.classList.add('flex'); // Re-adiciona o display flex
+                });
+            }
         });
     </script>
 </body>
